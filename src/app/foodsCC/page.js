@@ -4,7 +4,7 @@ import FoodCard from "@/components/foods/FoodCard";
 import NoFood from "@/components/foods/NoFood";
 // import FoodCard from "@/components/foods/foodCard";
 // import Food
-import React from "react";
+import React, { useEffect } from "react";
 
 import { useState } from "react";
 
@@ -12,6 +12,7 @@ const FoodsCC = () => {
   const [foods, setFoods] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchingInpt, setSearchingInput] = useState("");
+  console.log(searchingInpt);
 
   const fetchFoods = () => {
     setLoading(true);
@@ -196,9 +197,20 @@ const FoodsCC = () => {
         },
       ],
     ]);
+    setLoading(false);
   };
 
-  console.log(searchingInpt);
+  useEffect(() => {
+    fetchFoods();
+  }, []);
+
+  const handleSearch = () => {
+    const expectedFood = foods.filter((food) =>
+      food.dish_name.includes(searchingInpt),
+    );
+    console.log("Expected Foood: ", expectedFood);
+  };
+
   return (
     <div className="min-h-screen py-10 px-4">
       <div className="max-w-6xl mx-auto">
@@ -222,7 +234,10 @@ const FoodsCC = () => {
 
         {/* Search Button */}
         <div className="md:flex-1">
-          <button className="px-6 py-3 bg-orange-500 hover:bg-orange-600 disabled:opacity-500 text-white rounded-xl font-medium transition">
+          <button
+            onClick={handleSearch}
+            className="px-6 py-3 bg-orange-500 hover:bg-orange-600 disabled:opacity-500 text-white rounded-xl font-medium transition"
+          >
             Search
           </button>
         </div>
