@@ -1,6 +1,7 @@
 "use client";
 
 import FoodCard from "@/components/foods/FoodCard";
+import NoFood from "@/components/foods/NoFood";
 // import FoodCard from "@/components/foods/foodCard";
 // import Food
 import React from "react";
@@ -10,6 +11,7 @@ import { useState } from "react";
 const FoodsCC = () => {
   const [foods, setFoods] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [searchingInpt, setSearchingInput] = useState("");
 
   const fetchFoods = () => {
     setLoading(true);
@@ -195,6 +197,8 @@ const FoodsCC = () => {
       ],
     ]);
   };
+
+  console.log(searchingInpt);
   return (
     <div className="min-h-screen py-10 px-4">
       <div className="max-w-6xl mx-auto">
@@ -206,16 +210,18 @@ const FoodsCC = () => {
       {/* search & Filter Bar */}
       <div className="container mx-auto flex flex-col md:flex-row gap-4 mb-10 sticky top-4 z-10 bg-white dark:bg-zinc-900 p-4 rounded-2xl shadow-lg border border-zinc-200 dark:border-zinc-800">
         {/* search input */}
-        <div className="flex-1">
+        <div className="md:flex-1">
           <input
             type="text"
+            value={searchingInpt}
+            onChange={(e) => setSearchingInput(e.target.value)}
             placeholder="Search foods...(e.g. burger, pizza)"
             className="w-full px-5 py-3 bg-zinc-100 dark:bg-zinc-800 border border-transparent focus:border-orange-500 rounded-xl outline-none text-lg placeholder:text-zinc-400"
           ></input>
         </div>
 
         {/* Search Button */}
-        <div className="flex-1">
+        <div className="md:flex-1">
           <button className="px-6 py-3 bg-orange-500 hover:bg-orange-600 disabled:opacity-500 text-white rounded-xl font-medium transition">
             Search
           </button>
@@ -241,7 +247,7 @@ const FoodsCC = () => {
             <p className="text-xl text-zinc-500">Laoding delicious foods...</p>
           </div>
         ) : foods.length === 0 ? (
-          <h2>No Food</h2>
+          <NoFood />
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {foods.map((food) => (
